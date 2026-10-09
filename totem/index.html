@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Wireframe tótem</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Marco que escala la pantalla lógica de 1080 × 1920 px al tamaño de la ventana -->
+<div class="frame" id="frame">
+  <div class="totem" id="totem" data-nums="on">
+
+    <!-- ===== INTERFAZ DEL TÓTEM ===== -->
+    <div class="ui" id="ui">
+
+      <!-- Barra superior fija -->
+      <header class="top">
+        <div class="ph top__logo"><span class="ph__tag">Logo</span></div>
+        <strong class="top__name">Nombre del evento</strong>
+        <div class="xp" id="xp" aria-live="polite">XP <b id="xpVal">0</b></div>
+      </header>
+
+      <!-- Contenido: una pantalla visible por vez -->
+      <main class="content" id="content">
+
+        <!-- INICIO -->
+        <section class="screen" id="s-home" aria-label="Inicio">
+          <div class="home__intro">
+            <div class="ph home__img"><span class="ph__tag">Logo / imagen</span></div>
+            <div>
+              <h1>Nombre del evento</h1>
+              <p class="lead">Información breve del evento. Tocá una opción para empezar</p>
+            </div>
+          </div>
+          <div class="home__grid">
+            <button class="tile tile--wide" data-go="cooldown"><span class="tag">1</span><span class="ph tile__ico"><span class="ph__tag">Ícono</span></span><span class="tile__txt"><h2>Recargá tu cooldown</h2><p>Escaneá tu QR y recuperá tiempo de juego</p></span></button>
+            <button class="tile" data-go="reflejo"><span class="tag">2</span><span class="ph tile__ico"><span class="ph__tag">Ícono</span></span><h2>Reflejo 10</h2><p>Un desafío de 10 segundos</p></button>
+            <button class="tile" data-go="quiz"><span class="tag">4</span><span class="ph tile__ico"><span class="ph__tag">Ícono</span></span><h2>¿Qué jugador sos?</h2><p>Respondé 5 preguntas y descubrí tu perfil</p></button>
+            <button class="tile" data-go="mapa"><span class="tag">5</span><span class="ph tile__ico"><span class="ph__tag">Ícono</span></span><h2>Mapa en vivo</h2><p>Encontrá tu camino y mirá la ocupación</p></button>
+            <button class="tile" data-go="agenda"><span class="tag">6</span><span class="ph tile__ico"><span class="ph__tag">Ícono</span></span><h2>Ahora y próximo</h2><p>Lo que pasa y lo que viene</p></button>
+          </div>
+        </section>
+
+        <!-- 1 · RECARGÁ TU COOLDOWN -->
+        <section class="screen" id="s-cooldown" aria-label="Recargá tu cooldown">
+          <div class="head"><span class="tag">1</span><h1>Recargá tu cooldown</h1><p class="lead" id="cdLead"></p></div>
+          <div class="body" id="cdBody"></div>
+        </section>
+
+        <!-- 2 · REFLEJO 10 -->
+        <section class="screen" id="s-reflejo" aria-label="Reflejo 10">
+          <div class="head"><span class="tag">2</span><h1>Reflejo 10</h1><p class="lead" id="rfLead"></p></div>
+          <div class="body" id="rfBody"></div>
+        </section>
+
+        <!-- 4 · ¿QUÉ JUGADOR SOS? -->
+        <section class="screen" id="s-quiz" aria-label="¿Qué jugador sos?">
+          <div class="head"><span class="tag">4</span><h1>¿Qué jugador sos?</h1><p class="lead" id="qzLead"></p></div>
+          <div class="body" id="qzBody"></div>
+        </section>
+
+        <!-- 5 · MAPA EN VIVO -->
+        <section class="screen" id="s-mapa" aria-label="Mapa en vivo">
+          <div class="head head--row"><span class="tag">5</span><h1>Mapa en vivo</h1><p class="lead" id="mpUpd"></p></div>
+          <div class="map" id="map" role="group" aria-label="Plano con zonas">
+            <svg class="map__route" viewBox="0 0 960 860" aria-hidden="true"><path id="mpRoute" d="" fill="none"/></svg>
+            <button class="zone" data-zone="A" style="left:40px;top:30px;width:430px;height:240px">Zona A</button>
+            <button class="zone" data-zone="B" style="left:490px;top:30px;width:430px;height:240px">Zona B</button>
+            <button class="zone" data-zone="C" style="left:40px;top:310px;width:280px;height:280px">Zona C</button>
+            <button class="zone" data-zone="D" style="left:340px;top:310px;width:280px;height:280px">Zona D</button>
+            <button class="zone" data-zone="E" style="left:640px;top:310px;width:280px;height:280px">Zona E</button>
+            <div class="here" style="left:480px;top:740px"><i></i><span>Estás acá</span></div>
+          </div>
+          <ul class="legend" aria-label="Referencias de ocupación"><li><i class="sw sw0"></i>Ocupación baja</li><li><i class="sw sw1"></i>Media</li><li><i class="sw sw2"></i>Alta</li></ul>
+          <div class="zinfo" id="mpInfo" aria-live="polite"></div>
+        </section>
+
+        <!-- 6 · AHORA Y PRÓXIMO -->
+        <section class="screen" id="s-agenda" aria-label="Ahora y próximo">
+          <div class="head"><span class="tag">6</span><h1>Ahora y próximo</h1><p class="lead">Tocá «Llevarme» para ver el camino en el mapa</p></div>
+          <div class="body list" id="agBody"></div>
+        </section>
+      </main>
+
+      <!-- Barra inferior fija: navegación -->
+      <nav class="bottom" aria-label="Navegación del tótem">
+        <button class="btn nav" id="navBack" aria-label="Volver"><span class="nav__ic" aria-hidden="true">←</span>Volver</button>
+        <button class="btn nav" id="navHome" aria-label="Inicio"><span class="nav__ic" aria-hidden="true">⌂</span>Inicio</button>
+        <button class="btn nav" id="navHelp" aria-label="Ayuda"><span class="nav__ic" aria-hidden="true">?</span>Ayuda</button>
+        <button class="btn nav" id="navA11y" aria-label="Accesibilidad"><span class="nav__ic" aria-hidden="true">Aa</span>Accesibilidad</button>
+      </nav>
+    </div>
+
+    <!-- Pantalla de reposo (se muestra al inicio y tras un rato sin uso) -->
+    <section class="attract" id="attract" aria-label="Pantalla de reposo" role="button" tabindex="0">
+      <div class="ph attract__img"><span class="ph__tag">Imagen / video en bucle</span></div>
+      <h1>Nombre del evento</h1>
+      <p class="attract__cta">Tocá para empezar</p>
+    </section>
+
+    <!-- Diálogo genérico -->
+    <div class="modal" id="modal" hidden>
+      <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
+        <h2 id="mdTitle"></h2>
+        <div class="modal__body" id="mdBody"></div>
+        <div class="modal__actions" id="mdActions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Herramientas de presentación (fuera del tótem; solo se ven si sobra espacio a los lados) -->
+<aside class="tools" id="tools" aria-label="Herramientas de presentación">
+  <strong>Presentación</strong>
+  <button type="button" id="tFull">Pantalla completa</button>
+  <button type="button" id="tNums" aria-pressed="true">Numeración: sí</button>
+  <button type="button" id="tIdle" aria-pressed="true">Reposo automático: sí</button>
+  <button type="button" id="tReset">Reiniciar</button>
+  <small>Pantalla lógica 1080 × 1920 px</small>
+</aside>
+
+<script src="app.js"></script>
+</body>
+</html>
